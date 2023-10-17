@@ -34,6 +34,7 @@ func main() {
 
 	router.Get("/status", handlerReadiness)
 	router.Get("/error", handlerError)
+	router.Get("/user", apiCfg.handlerGetUser)
 	router.Post("/user", apiCfg.handlerCreateUser)
 
 	port := os.Getenv("PORT")
