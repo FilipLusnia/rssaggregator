@@ -32,10 +32,18 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	// ---------------------
+
 	router.Get("/status", handlerReadiness)
 	router.Get("/error", handlerError)
-	router.Get("/user", apiCfg.handlerGetUser)
-	router.Post("/user", apiCfg.handlerCreateUser)
+
+	router.Get("/users", apiCfg.middlewareAuth(apiCfg.handlerGetUser))
+	router.Post("/users", apiCfg.handlerCreateUser)
+
+	router.Get("/feeds", apiCfg.handlerGetFeeds)
+	router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.handlerCreateFeed))
+
+	// ---------------------
 
 	port := os.Getenv("PORT")
 	if port == "" {
