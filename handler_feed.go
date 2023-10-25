@@ -10,16 +10,15 @@ import (
 	"github.com/google/uuid"
 )
 
-type feedStruct struct {
-	Name string `json:"name"`
-	URL  string `json:"url"`
-}
-
 func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 
-	decoder := json.NewDecoder(r.Body)
-
+	type feedStruct struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	}
 	params := feedStruct{}
+
+	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Error parsing JSON: %s", err))
