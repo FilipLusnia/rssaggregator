@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/FilipLusnia/rssagg/internal/database"
 	"github.com/go-chi/chi"
@@ -18,9 +19,12 @@ type apiConfig struct {
 func main() {
 	godotenv.Load(".env")
 
+	dbConn := myDatabase()
 	apiCfg := apiConfig{
-		DB: myDatabase(),
+		DB: dbConn,
 	}
+
+	go startScraping(dbConn, 10, time.Minute)
 
 	router := chi.NewRouter()
 	router.Use(cors.Handler(cors.Options{

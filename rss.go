@@ -47,5 +47,5 @@ func urlToFeed(url string) (RSSFeed, error) {
 		return rssFeed, err
 	}
 
-	return rssFeed, err
+	return rssFeed, nil
 }
